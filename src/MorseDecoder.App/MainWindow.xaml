@@ -1,12 +1,155 @@
-﻿<Window x:Class="MorseDecoder.App.MainWindow"
+<Window x:Class="MorseDecoder.App.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MorseDecoder.App"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Morse Decoder v0.1"
+        Height="560"
+        Width="900"
+        MinHeight="480"
+        MinWidth="760">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <TextBlock Text="Morse Decoder v0.1 - Single Frequency Tone Detector"
+                   FontSize="20"
+                   FontWeight="SemiBold"
+                   Margin="0,0,0,12"/>
+
+        <Border Grid.Row="1"
+                BorderBrush="#CCCCCC"
+                BorderThickness="1"
+                Padding="10"
+                CornerRadius="4"
+                Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="260"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Audio Input:"
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,0"/>
+                <ComboBox x:Name="DeviceCombo"
+                          Grid.Column="1"
+                          MinWidth="240"
+                          DisplayMemberPath="ProductName"/>
+
+                <TextBlock Grid.Column="2"
+                           Text="Frequency:"
+                           VerticalAlignment="Center"
+                           Margin="16,0,8,0"/>
+                <TextBox x:Name="FrequencyText"
+                         Grid.Column="3"
+                         Text="700"
+                         VerticalContentAlignment="Center"/>
+
+                <TextBlock Grid.Column="4"
+                           Text="Threshold:"
+                           VerticalAlignment="Center"
+                           Margin="16,0,8,0"/>
+                <TextBox x:Name="ThresholdText"
+                         Grid.Column="5"
+                         Text="0.015"
+                         VerticalContentAlignment="Center"/>
+
+                <Button x:Name="StartButton"
+                        Grid.Column="6"
+                        Content="Start"
+                        Width="80"
+                        Margin="16,0,0,0"
+                        Click="StartButton_Click"/>
+
+                <Button x:Name="StopButton"
+                        Grid.Column="7"
+                        Content="Stop"
+                        Width="80"
+                        Margin="8,0,0,0"
+                        IsEnabled="False"
+                        Click="StopButton_Click"/>
+
+                <Button x:Name="RefreshButton"
+                        Grid.Column="8"
+                        Content="Refresh Devices"
+                        Width="120"
+                        HorizontalAlignment="Right"
+                        Click="RefreshButton_Click"/>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="Detector Status"
+                      Margin="0,0,10,0">
+                <StackPanel Margin="10">
+                    <TextBlock x:Name="StatusText"
+                               Text="Stopped"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Signal Level"/>
+                    <ProgressBar x:Name="LevelBar"
+                                 Minimum="0"
+                                 Maximum="0.08"
+                                 Height="24"
+                                 Margin="0,4,0,10"/>
+
+                    <TextBlock x:Name="LevelText"
+                               Text="Level: 0.0000"
+                               Margin="0,0,0,16"/>
+
+                    <TextBlock x:Name="ToneText"
+                               Text="Tone: OFF"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Margin="0,0,0,16"/>
+
+                    <TextBlock Text="Notes"/>
+                    <TextBlock TextWrapping="Wrap"
+                               Foreground="#555555"
+                               Text="v0.1 is intentionally limited to one target frequency. Use this to validate audio capture, threshold settings, and timing accuracy before adding Morse decoding and the waterfall."/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1"
+                      Header="Tone Event Log">
+                <DockPanel Margin="10">
+                    <Button DockPanel.Dock="Bottom"
+                            Content="Clear Log"
+                            HorizontalAlignment="Right"
+                            Width="90"
+                            Margin="0,10,0,0"
+                            Click="ClearLogButton_Click"/>
+                    <TextBox x:Name="LogText"
+                             IsReadOnly="True"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto"
+                             FontFamily="Consolas"
+                             FontSize="13"/>
+                </DockPanel>
+            </GroupBox>
+        </Grid>
+
+        <TextBlock Grid.Row="3"
+                   Text="Next: v0.2 will classify tone timings as dots/dashes and decode Morse characters."
+                   Foreground="#666666"
+                   Margin="0,10,0,0"/>
     </Grid>
 </Window>
